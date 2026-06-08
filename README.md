@@ -46,25 +46,14 @@ python3 --version
 
 ## How to Run
 
-### Step 1 — Extract the ZIP file
-Unzip `NhomG22_QuanLyKhoHang.zip` to any folder on your computer.
+Open a terminal (or Command Prompt), navigate into the `src/` folder, then run `main.py`:
 
-### Step 2 — Open a terminal / command prompt
-Navigate to the `src/` folder inside the extracted directory.
-
-**Windows (Command Prompt or PowerShell):**
-```cmd
-cd path\to\NhomG22_QuanLyKhoHang\src
+```bash
+cd NhomG22_QuanLyKhoHang/src
 python main.py
 ```
 
-**macOS / Linux (Terminal):**
-```bash
-cd path/to/NhomG22_QuanLyKhoHang/src
-python3 main.py
-```
-
-> **Important:** You must run `main.py` from inside the `src/` folder so that the program can locate the `data/` files correctly.
+> **Note:** Make sure you are inside the `src/` folder before running, so the program can find the `data/` files correctly.
 
 ---
 
