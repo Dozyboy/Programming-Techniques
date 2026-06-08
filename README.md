@@ -1,5 +1,5 @@
 # Warehouse Management System
-### Group G22 — Topic 3 | Data Structures & Algorithms Course
+### Group G22 — Topic 3 | Programming Techniques
 
 | | |
 |---|---|
@@ -49,8 +49,9 @@ python3 --version
 Open a terminal (or Command Prompt), navigate into the `src/` folder, then run `main.py`:
 
 ```bash
-cd NhomG22_QuanLyKhoHang/src
-python main.py
+git clone https://github.com/Dozyboy/Programming-Techniques.git
+cd Programming-Techniques/src
+python main.py or python3 main.py
 ```
 
 > **Note:** Make sure you are inside the `src/` folder before running, so the program can find the `data/` files correctly.
