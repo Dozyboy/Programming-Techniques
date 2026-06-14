@@ -61,6 +61,12 @@ def _nhap_ten_san_pham(danh_sach, ma_bo_qua=None):
     """
     while True:
         ten = input("  Ten san pham: ").strip()
+
+        if ten.lower() == 'q':
+            return None
+            
+        # Lam sach ky tu dac biet
+        ten = _lam_sach_chuoi(ten)
         if not ten:
             print("  [!] Ten san pham khong duoc de trong.")
             continue
@@ -98,6 +104,9 @@ def them_san_pham():
     # --- Ma san pham ---
     while True:
         ma_sp = input("  Ma san pham (VD: SP011): ").strip().upper()
+        if ma_sp.lower() == 'q':
+            print("  Da huy them san pham.")
+            return
         if not ma_sp:
             print("  [!] Ma san pham khong duoc de trong.")
             continue
@@ -108,6 +117,9 @@ def them_san_pham():
 
     # --- Ten san pham (kiem tra trung) ---
     ten_sp = _nhap_ten_san_pham(danh_sach)
+    if ten_sp is None:  # Bắt None ở đây
+        print("  Da huy them san pham.")
+        return
 
     # --- Loai hang (chon tu danh sach) ---
     print()
@@ -125,8 +137,17 @@ def them_san_pham():
 
     # --- So luong, gia, nguong ---
     so_luong_ton    = _nhap_so_nguyen_duong("  So luong ton kho ban dau")
+    if so_luong_ton is None:  # Bắt None ở đây
+        print("  Da huy them san pham.")
+        return
     don_gia         = _nhap_so_thuc_duong("  Don gia (VND)")
+    if don_gia is None:  # Bắt None ở đây
+        print("  Da huy them san pham.")
+        return
     nguong_toi_thieu = _nhap_so_nguyen_duong("  Nguong canh bao ton kho toi thieu")
+    if nguong_toi_thieu is None:  
+        print("  Da huy them san pham.")
+        return
 
     sp_moi = SanPham(ma_sp, ten_sp, loai_hang, don_vi_tinh,
                      so_luong_ton, don_gia, nguong_toi_thieu)
@@ -150,7 +171,11 @@ def sua_san_pham():
 
     _in_bang_san_pham(danh_sach, "DANH SACH SAN PHAM - chon san pham can sua")
 
-    ma_sp = input("  Nhap ma san pham can sua: ").strip().upper()
+    ma_sp = _nhap_chuoi_an_toan("  Nhap ma san pham can sua")
+    if ma_sp is None: 
+        print("  Da huy thao tac sua san pham.")
+        return
+    ma_sp = ma_sp.upper()
     sp = tim_san_pham_theo_ma(ma_sp, danh_sach)
     if sp is None:
         print(f"  [!] Khong tim thay san pham co ma '{ma_sp}'.")
@@ -165,11 +190,13 @@ def sua_san_pham():
     print(f"  Don gia       : {sp.don_gia:,.0f} VND")
     print(f"  Nguong toi min: {sp.nguong_toi_thieu}")
     print(f"  ----------------------------------------")
-    print("  (Nhan Enter de giu nguyen gia tri cu)\n")
+    print("  (Nhan Enter de giu nguyen gia tri cu, hoac 'q' de huy toan bo)\n")
 
     # --- Ten san pham ---
     ten_moi = input(f"  Ten san pham [{sp.ten_sp}]: ").strip()
+    if ten_moi.lower() == 'q': return print("  Da huy thao tac sua.")
     if ten_moi:
+        ten_moi = _lam_sach_chuoi(ten_moi) # Lọc ký tự rác
         trung = _kiem_tra_trung_ten(ten_moi, danh_sach, ma_bo_qua=ma_sp)
         if trung:
             print(f"\n  [CANH BAO] Ten '{ten_moi}' da ton tai o san pham khac:")
@@ -183,18 +210,20 @@ def sua_san_pham():
             sp.ten_sp = ten_moi
 
     # --- Loai hang ---
-    doi_loai = input(f"  Doi loai hang [{sp.loai_hang}]? (y/n): ").strip().lower()
+    doi_loai = input(f"  Doi loai hang [{sp.loai_hang}]? (y=doi, Enter=giu, q=huy): ").strip().lower()
+    if doi_loai == 'q': return print("  Da huy thao tac sua.")
     if doi_loai == 'y':
         loai_moi = chon_loai_hang()
-        if loai_moi:
-            sp.loai_hang = loai_moi
+        if loai_moi is None: return print("  Da huy thao tac sua.") # Bắt None từ categories
+        sp.loai_hang = loai_moi
 
     # --- Don vi tinh ---
-    doi_dvt = input(f"  Doi don vi tinh [{sp.don_vi_tinh}]? (y/n): ").strip().lower()
+    doi_dvt = input(f"  Doi don vi tinh [{sp.don_vi_tinh}]? (y=doi, Enter=giu, q=huy): ").strip().lower()
+    if doi_dvt == 'q': return print("  Da huy thao tac sua.")
     if doi_dvt == 'y':
         dvt_moi = chon_don_vi_tinh()
-        if dvt_moi:
-            sp.don_vi_tinh = dvt_moi
+        if dvt_moi is None: return print("  Da huy thao tac sua.") # Bắt None
+        sp.don_vi_tinh = dvt_moi
 
     # --- Don gia ---
     gia_moi = input(f"  Don gia [{sp.don_gia:,.0f} VND]: ").strip()
@@ -208,13 +237,12 @@ def sua_san_pham():
             print("  [!] Gia tri khong hop le, giu nguyen don gia cu.")
 
     # --- Nguong toi thieu ---
-    nguong_moi = input(f"  Nguong toi thieu [{sp.nguong_toi_thieu}]: ").strip()
+    nguong_moi = input(f"  Nguong toi thieu [{sp.nguong_toi_thieu}] (Enter de giu, 'q' de huy): ").strip()
+    if nguong_moi.lower() == 'q': return print("  Da huy thao tac sua.")
     if nguong_moi:
         try:
             n = int(nguong_moi)
-            if n < 0:
-                raise ValueError
-            sp.nguong_toi_thieu = n
+            if n >= 0: sp.nguong_toi_thieu = n
         except ValueError:
             print("  [!] Gia tri khong hop le, giu nguyen nguong cu.")
 
@@ -234,7 +262,13 @@ def xoa_san_pham():
 
     _in_bang_san_pham(danh_sach, "DANH SACH SAN PHAM - chon san pham can xoa")
 
-    ma_sp = input("  Nhap ma san pham can xoa: ").strip().upper()
+    # Su dung ham an toan
+    ma_sp = _nhap_chuoi_an_toan("  Nhap ma san pham can xoa")
+    if ma_sp is None:
+        print("  Da huy thao tac xoa san pham.")
+        return
+    ma_sp = ma_sp.upper()
+
     sp = tim_san_pham_theo_ma(ma_sp, danh_sach)
     if sp is None:
         print(f"  [!] Khong tim thay san pham co ma '{ma_sp}'.")
@@ -244,10 +278,7 @@ def xoa_san_pham():
     print(f"\n  --- THONG TIN SAN PHAM SE XOA ---")
     print(f"  Ma SP        : {sp.ma_sp}")
     print(f"  Ten san pham : {sp.ten_sp}")
-    print(f"  Loai hang    : {sp.loai_hang}")
-    print(f"  Don vi tinh  : {sp.don_vi_tinh}")
-    print(f"  So luong ton : {sp.so_luong_ton}")
-    print(f"  Don gia      : {sp.don_gia:,.0f} VND")
+    print(f"  So luong ton : {sp.so_luong_ton} {sp.don_vi_tinh}")
     print(f"  ---------------------------------")
 
     if sp.so_luong_ton > 0:
@@ -255,8 +286,9 @@ def xoa_san_pham():
         print("  Khong the xoa san pham con hang. Hay xuat het hang truoc.")
         return
 
-    xac_nhan = input(f"  Xac nhan xoa '{sp.ten_sp}' ({ma_sp})? (y/n): ").strip().lower()
-    if xac_nhan != 'y':
+    # Cho phep an 'q' de huy
+    xac_nhan = input(f"  Xac nhan xoa '{sp.ten_sp}' ({ma_sp})? (y/n, hoac 'q' de huy): ").strip().lower()
+    if xac_nhan == 'q' or xac_nhan != 'y':
         print("  Da huy thao tac xoa.")
         return
 
@@ -307,7 +339,12 @@ def nhap_kho():
 
     _in_bang_san_pham(danh_sach_sp, "DANH SACH SAN PHAM TRONG KHO")
 
-    ma_sp = input("  Nhap ma san pham can nhap kho: ").strip().upper()
+    ma_sp = _nhap_chuoi_an_toan("  Nhap ma san pham can nhap kho")
+    if ma_sp is None:
+        return print("  Da huy thao tac nhap kho.")
+    ma_sp = ma_sp.upper()
+
+
     sp = tim_san_pham_theo_ma(ma_sp, danh_sach_sp)
     if sp is None:
         print(f"  [!] Khong tim thay san pham co ma '{ma_sp}'.")
@@ -317,11 +354,19 @@ def nhap_kho():
           f"| Ton kho hien tai: {sp.so_luong_ton} {sp.don_vi_tinh}")
 
     so_luong = _nhap_so_nguyen_duong("  So luong nhap")
+    if so_luong is None:  # Bắt None
+        print("  Da huy thao tac nhap kho.")
+        return
     don_gia  = _nhap_so_thuc_duong(
         f"  Don gia nhap [mac dinh {sp.don_gia:,.0f} VND, Enter de giu]",
         mac_dinh=sp.don_gia
     )
-    ghi_chu = input("  Ghi chu (tuy chon, Enter de bo qua): ").strip()
+    if don_gia is None:  # Bắt None
+        print("  Da huy thao tac nhap kho.")
+        return
+    ghi_chu = input("  Ghi chu (Enter bo qua, hoac 'q' de huy): ").strip()
+    if ghi_chu.lower() == 'q': return print("  Da huy thao tac nhap kho.")
+    ghi_chu = _lam_sach_chuoi(ghi_chu) # Lọc ký tự bẩn trong ghi chú
     ngay    = _lay_ngay_hom_nay()
 
     so_luong_cu = sp.so_luong_ton
@@ -359,7 +404,13 @@ def xuat_kho():
 
     _in_bang_san_pham(danh_sach_sp, "DANH SACH SAN PHAM TRONG KHO")
 
-    ma_sp = input("  Nhap ma san pham can xuat kho: ").strip().upper()
+    # Su dung ham an toan de nhap ma SP
+    ma_sp = _nhap_chuoi_an_toan("  Nhap ma san pham can xuat kho")
+    if ma_sp is None:
+        print("  Da huy thao tac xuat kho.")
+        return
+    ma_sp = ma_sp.upper()
+
     sp = tim_san_pham_theo_ma(ma_sp, danh_sach_sp)
     if sp is None:
         print(f"  [!] Khong tim thay san pham co ma '{ma_sp}'.")
@@ -373,19 +424,31 @@ def xuat_kho():
         return
 
     so_luong = _nhap_so_nguyen_duong("  So luong xuat")
+    if so_luong is None:
+        print("  Da huy thao tac xuat kho.")
+        return
 
     if so_luong > sp.so_luong_ton:
-        print(f"  [!] Khong du hang! Ton kho chi con {sp.so_luong_ton} {sp.don_vi_tinh}, "
-              f"ban muon xuat {so_luong}.")
+        print(f"  [!] Khong du hang! Ton kho chi con {sp.so_luong_ton} {sp.don_vi_tinh}, ban muon xuat {so_luong}.")
         return
 
     don_gia = _nhap_so_thuc_duong(
         f"  Don gia xuat [mac dinh {sp.don_gia:,.0f} VND, Enter de giu]",
         mac_dinh=sp.don_gia
     )
-    ghi_chu = input("  Ghi chu (tuy chon, Enter de bo qua): ").strip()
-    ngay    = _lay_ngay_hom_nay()
+    if don_gia is None:
+        print("  Da huy thao tac xuat kho.")
+        return
+        
+    # Cho phep huy ca o buoc ghi chu, lam sach chuoi rac
+    ghi_chu = input("  Ghi chu (Enter bo qua, hoac 'q' de huy): ").strip()
+    if ghi_chu.lower() == 'q':
+        print("  Da huy thao tac xuat kho.")
+        return
+    ghi_chu = _lam_sach_chuoi(ghi_chu)
 
+    ngay = _lay_ngay_hom_nay()
+    
     so_luong_cu = sp.so_luong_ton
     sp.so_luong_ton -= so_luong
     luu_danh_sach_san_pham(danh_sach_sp)
@@ -419,14 +482,27 @@ def xuat_kho():
 #  TIEN ICH NOI BO
 # ============================================================
 
+def _lam_sach_chuoi(chuoi):
+    """Loai bo cac ky tu dac biet de tranh du lieu rac."""
+    ky_tu_cam = ['"', "'", '*', '~', '`', '#', '$', '%', '^', '&', '\\', '|']
+    ket_qua = chuoi
+    for kt in ky_tu_cam:
+        ket_qua = ket_qua.replace(kt, "")
+    # Thay the nhieu khoang trang thanh 1 khoang trang
+    return " ".join(ket_qua.split())
+
 def _lay_ngay_hom_nay():
     return datetime.date.today().strftime("%Y-%m-%d")
 
 
 def _nhap_so_nguyen_duong(nhan_hien_thi):
     while True:
+        nhap = input(f"{nhan_hien_thi} (hoac nhap 'q' de huy): ").strip()
+        if nhap.lower() == 'q':
+            return None # Tra ve None neu nguoi dung muon huy
+            
         try:
-            gia_tri = int(input(f"{nhan_hien_thi}: ").strip())
+            gia_tri = int(nhap)
             if gia_tri <= 0:
                 print("  [!] Gia tri phai la so nguyen duong (> 0).")
                 continue
@@ -437,7 +513,10 @@ def _nhap_so_nguyen_duong(nhan_hien_thi):
 
 def _nhap_so_thuc_duong(nhan_hien_thi, mac_dinh=None):
     while True:
-        nhap = input(f"{nhan_hien_thi}: ").strip().replace(",", "")
+        nhap = input(f"{nhan_hien_thi} (hoac nhap 'q' de huy): ").strip().replace(",", "")
+        if nhap.lower() == 'q':
+            return None # Tra ve None neu nguoi dung muon huy
+            
         if nhap == "" and mac_dinh is not None:
             return mac_dinh
         try:
@@ -448,3 +527,17 @@ def _nhap_so_thuc_duong(nhan_hien_thi, mac_dinh=None):
             return gia_tri
         except ValueError:
             print("  [!] Vui long nhap so hop le.")
+
+def _nhap_chuoi_an_toan(nhan_hien_thi, cho_phep_rong=False):
+    """Nhap chuoi, loc ky tu dac biet va cho phep nhap 'q' de huy."""
+    while True:
+        nhap = input(f"{nhan_hien_thi} (hoac 'q' de huy): ").strip()
+        if nhap.lower() == 'q':
+            return None # Nguoi dung muon huy
+            
+        nhap = _lam_sach_chuoi(nhap)
+        
+        if not nhap and not cho_phep_rong:
+            print("  [!] Thong tin khong duoc de trong hoac chi chua ky tu dac biet.")
+            continue
+        return nhap

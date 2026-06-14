@@ -120,10 +120,20 @@ def menu_tim_kiem():
         else:
             print("  [!] Lua chon khong hop le.")
 
-
 def _giao_dien_tim_theo_ma():
     danh_sach = tai_danh_sach_san_pham()
-    ma = input("  Nhap ma san pham can tim: ").strip()
+    ma = input("  Nhap ma san pham can tim (hoac 'q' de huy): ").strip()
+    
+    if ma.lower() == 'q':
+        return # Thoat ngay
+        
+    # Loc ky tu rac (nhay kep/nhay don) de so sanh chinh xac hon
+    ma = ma.replace('"', '').replace("'", "")
+    
+    if not ma:
+        print("  [!] Ma san pham khong duoc de trong.")
+        return
+        
     sp = tim_kiem_theo_ma(ma, danh_sach)
     if sp:
         print("\n  Ket qua:")
@@ -131,10 +141,12 @@ def _giao_dien_tim_theo_ma():
     else:
         print(f"  [!] Khong tim thay san pham co ma '{ma}'.")
 
-
 def _giao_dien_tim_theo_ten():
     danh_sach = tai_danh_sach_san_pham()
-    tu_khoa = input("  Nhap tu khoa ten san pham: ").strip()
+    tu_khoa = input("  Nhap tu khoa ten san pham (hoac 'q' de huy): ").strip()
+    
+    if tu_khoa.lower() == 'q': return # Thoát ngay
+    tu_khoa = tu_khoa.replace('"', '').replace("'", "")
     if not tu_khoa:
         print("  [!] Tu khoa khong duoc de trong.")
         return
@@ -144,10 +156,18 @@ def _giao_dien_tim_theo_ten():
 
 def _giao_dien_tim_theo_loai():
     danh_sach = tai_danh_sach_san_pham()
-    loai = input("  Nhap loai hang can tim: ").strip()
+    loai = input("  Nhap loai hang can tim (hoac 'q' de huy): ").strip()
+    
+    if loai.lower() == 'q':
+        return # Thoat ngay
+        
+    # Loc ky tu rac
+    loai = loai.replace('"', '').replace("'", "")
+    
     if not loai:
         print("  [!] Loai hang khong duoc de trong.")
         return
+        
     ket_qua = tim_kiem_theo_loai(loai, danh_sach)
     _in_ket_qua_tim_kiem(ket_qua, f"loai hang '{loai}'")
 

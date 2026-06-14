@@ -154,10 +154,20 @@ def _chon_tu_danh_sach(tieu_de, key, nhan_them, ham_them, nhan_nhap):
             return None
 
         if lua_chon == "A":
-            gia_tri_moi = input(nhan_nhap).strip()
+            gia_tri_moi = input(f"{nhan_nhap} (hoac 'q' de huy thao tac them): ").strip()
+            
+            if gia_tri_moi.lower() == 'q':
+                continue # Quay lai menu chon
+                
+            # Lọc ký tự rác ngay tại đây (cấm các ký tự đặc biệt)
+            for kt in ['"', "'", '*', '~', '`', '#', '$', '%', '^', '&', '\\', '|']:
+                gia_tri_moi = gia_tri_moi.replace(kt, "")
+            gia_tri_moi = " ".join(gia_tri_moi.split())
+            
             if not gia_tri_moi:
-                print("  [!] Ten khong duoc de trong.")
+                print("  [!] Ten khong duoc de trong hoac chi chua ky tu rac.")
                 continue
+                
             ket_qua = ham_them(gia_tri_moi)
             if ket_qua:
                 print(f"  [OK] Da them '{gia_tri_moi}' vao danh sach.")

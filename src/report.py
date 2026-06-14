@@ -90,24 +90,25 @@ def bao_cao_theo_thang():
               f"den Thang {ky_cuoi[1][-1]}/{ky_cuoi[0]}")
     print()
 
-    # Nhap thang/nam
+    # Nhap nam
     while True:
+        nhap_nam = input("  Nhap nam (VD: 2025) hoac 'q' de huy: ").strip()
+        if nhap_nam.lower() == 'q': return # Thoát ngay lập tức
         try:
-            nam = int(input("  Nhap nam (VD: 2025): ").strip())
-            if nam < 2000 or nam > 2100:
-                print("  [!] Nam khong hop le.")
-                continue
-            break
+            nam = int(nhap_nam)
+            if 2000 <= nam <= 2100: break
+            print("  [!] Nam khong hop le.")
         except ValueError:
             print("  [!] Vui long nhap so nguyen.")
 
+    # Nhap thang
     while True:
+        nhap_thang = input("  Nhap thang (1-12) hoac 'q' de huy: ").strip()
+        if nhap_thang.lower() == 'q': return
         try:
-            thang = int(input("  Nhap thang (1-12): ").strip())
-            if thang < 1 or thang > 12:
-                print("  [!] Thang phai tu 1 den 12.")
-                continue
-            break
+            thang = int(nhap_thang)
+            if 1 <= thang <= 12: break
+            print("  [!] Thang phai tu 1 den 12.")
         except ValueError:
             print("  [!] Vui long nhap so nguyen.")
 
