@@ -160,4 +160,18 @@ def chay_chuong_trinh():
 # ============================================================
 
 if __name__ == "__main__":
-    chay_chuong_trinh()
+    import argparse
+    parser = argparse.ArgumentParser(description="He thong Quan ly Kho Hang Nhom G22")
+    parser.add_argument("--console", action="store_true", help="Chay chuong trinh duoi dang console CLI thay vi GUI")
+    args = parser.parse_args()
+
+    if args.console:
+        chay_chuong_trinh()
+    else:
+        try:
+            from gui import start_gui
+            start_gui()
+        except Exception as e:
+            print(f"\n[!] Khong the khoi chay Giao dien do hoa (GUI): {e}")
+            print("    He thong tu dong chuyen sang Giao dien dong lenh (Console/CLI)...\n")
+            chay_chuong_trinh()

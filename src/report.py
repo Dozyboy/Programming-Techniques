@@ -291,6 +291,7 @@ def _thong_ke_theo_loai(danh_sach):
         print(f"  {ten_loai:<25} {so_sp:>6} {gia_tri:>16,.0f} {phan_tram:>9.1f}%")
     print("  " + "=" * 62)
     print(f"  {'TONG CONG':<25} {len(danh_sach):>6} {tong_chung:>16,.0f} {'100.0%':>10}")
+    return nhom
 
 
 # ============================================================

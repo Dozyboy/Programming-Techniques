@@ -46,15 +46,31 @@ python3 --version
 
 ## How to Run
 
-Open a terminal (or Command Prompt), navigate into the `src/` folder, then run `main.py`:
+### 1. Prerequisites
+- **Python 3.7 or higher**
+- Thư viện xử lý ảnh `Pillow` (dùng để hiển thị logo HUST trên giao diện đồ họa GUI). Cài đặt bằng lệnh:
+  ```bash
+  pip install Pillow
+  ```
+  *(Lưu ý: Nếu không cài đặt `Pillow`, giao diện GUI vẫn khởi chạy bình thường nhưng sẽ tự động bỏ qua logo).*
 
+### 2. Run the Application
+
+Navigate into the `src/` folder and run `main.py`:
+
+#### Chạy chế độ giao diện đồ họa (GUI - Mặc định)
 ```bash
-git clone https://github.com/Dozyboy/Programming-Techniques.git
-cd Programming-Techniques/src
-python main.py or python3 main.py
+python main.py
+```
+*Hệ thống sẽ khởi chạy giao diện cửa sổ trực quan hiện đại, hỗ trợ các chức năng bằng nút nhấn.*
+
+#### Chạy chế độ dòng lệnh (CLI - Console)
+Nếu bạn chạy trên máy chủ không có màn hình (headless) hoặc muốn sử dụng menu console truyền thống, hãy thêm tham số `--console`:
+```bash
+python main.py --console
 ```
 
-> **Note:** Make sure you are inside the `src/` folder before running, so the program can find the `data/` files correctly.
+> **Note:** Make sure you are inside the `src/` folder before running, so the program can find the `data/` files or the HUST logo correctly.
 
 ---
 
