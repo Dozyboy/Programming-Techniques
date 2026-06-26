@@ -50,21 +50,19 @@ pip install -r requirements.txt
 
 ### 2. Khởi chạy ứng dụng
 
-Truy cập vào thư mục `src/` và chạy tệp `main.py`:
+Khởi chạy từ thư mục gốc của dự án:
 
 #### Khởi chạy chế độ giao diện đồ họa (GUI - Mặc định)
 ```bash
-python main.py
+python src/main.py
 ```
 *Giao diện cửa sổ trực quan hiện đại, hỗ trợ các chức năng bằng nút nhấn.*
 
 #### Khởi chạy chế độ dòng lệnh (CLI - Console)
 Nếu bạn chạy trên máy chủ không màn hình (headless) hoặc muốn sử dụng menu console truyền thống, hãy thêm tham số `--console`:
 ```bash
-python main.py --console
+python src/main.py --console
 ```
-
-> **Lưu ý:** Hãy chắc chắn rằng bạn chạy lệnh từ trong thư mục `src/` để chương trình định vị chính xác các tệp dữ liệu trong thư mục `data/` cũng như logo HUST.
 
 ---
 
