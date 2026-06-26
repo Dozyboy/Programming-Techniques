@@ -14,7 +14,8 @@
 ```
 NhomG22_QuanLyKhoHang/
 ├── src/
-│   ├── main.py          # Entry point — main menu loop
+│   ├── main.py          # Entry point — tries to run GUI, falls back to CLI
+│   ├── gui.py           # Graphical user interface (GUI) built with tkinter/ttk
 │   ├── models.py        # Data classes: SanPham (Product), GiaoDich (Transaction)
 │   ├── storage.py       # Read / write JSON files
 │   ├── inventory.py     # Add / edit / delete products, import & export stock
@@ -25,6 +26,7 @@ NhomG22_QuanLyKhoHang/
 │   ├── products.json        # Product catalog
 │   ├── transactions.json    # Import / export transaction log
 │   └── categories.json      # Category & unit lists (auto-created on first run)
+├── requirements.txt     # Python dependency configuration file
 └── README.md
 ```
 
@@ -33,26 +35,18 @@ NhomG22_QuanLyKhoHang/
 ## Requirements
 
 - **Python 3.7 or higher**
-- No third-party libraries needed — only Python standard library (`json`, `os`, `datetime`)
-
-Check your Python version:
-```bash
-python --version
-# or
-python3 --version
-```
+- Thư viện xử lý ảnh `Pillow` (để hiển thị logo HUST trên GUI, nếu thiếu giao diện vẫn hoạt động bình thường nhưng bỏ qua logo).
 
 ---
 
 ## How to Run
 
 ### 1. Prerequisites
-- **Python 3.7 or higher**
-- Thư viện xử lý ảnh `Pillow` (dùng để hiển thị logo HUST trên giao diện đồ họa GUI). Cài đặt bằng lệnh:
-  ```bash
-  pip install Pillow
-  ```
-  *(Lưu ý: Nếu không cài đặt `Pillow`, giao diện GUI vẫn khởi chạy bình thường nhưng sẽ tự động bỏ qua logo).*
+Cài đặt thư viện phụ thuộc bằng lệnh sau ở thư mục gốc:
+```bash
+pip install -r requirements.txt
+```
+*(Lưu ý: Nếu không cài đặt `Pillow`, giao diện GUI vẫn khởi chạy bình thường nhưng sẽ tự động bỏ qua logo).*
 
 ### 2. Run the Application
 
