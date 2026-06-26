@@ -26,6 +26,14 @@ NhomG22_QuanLyKhoHang/
 │   ├── products.json        # Cơ sở dữ liệu danh mục sản phẩm
 │   ├── transactions.json    # Cơ sở dữ liệu nhật ký giao dịch nhập / xuất
 │   └── categories.json      # Danh sách loại hàng & đơn vị tính (tự tạo khi chạy)
+├── tests/
+│   ├── __init__.py      # Khởi tạo gói kiểm thử
+│   ├── test_models.py   # Kiểm thử lớp dữ liệu SanPham, GiaoDich
+│   ├── test_storage.py  # Kiểm thử chức năng đọc/ghi file & sinh mã tự động
+│   ├── test_search.py   # Kiểm thử các thuật toán sắp xếp (Bubble) & tìm kiếm (Linear)
+│   ├── test_categories.py # Kiểm thử danh mục sản phẩm và đơn vị tính
+│   └── test_report.py   # Kiểm thử logic tính toán báo cáo thống kê
+├── run_tests.py         # Trình chạy kiểm thử tự động toàn dự án
 ├── requirements.txt     # Tệp khai báo các thư viện phụ thuộc Python
 └── README.md
 ```
@@ -63,6 +71,15 @@ Nếu bạn chạy trên máy chủ không màn hình (headless) hoặc muốn s
 ```bash
 python src/main.py --console
 ```
+
+### 3. Khởi chạy kiểm thử tự động (Unit Tests)
+Hệ thống cung cấp một bộ kiểm thử tự động toàn diện sử dụng thư viện chuẩn `unittest` của Python để xác thực và bẫy lỗi các chức năng nghiệp vụ quan trọng.
+
+Khởi chạy từ thư mục gốc của dự án:
+```bash
+python run_tests.py
+```
+*(Lưu ý: Bộ kiểm thử thiết lập môi trường bằng cách sử dụng các tệp tin lưu trữ tạm thời cô lập, cam kết không ghi đè hay làm ảnh hưởng đến dữ liệu thực của bạn trong thư mục data/).*
 
 ---
 
